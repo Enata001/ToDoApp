@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoApp", "TodoApp\TodoApp.csproj", "{B0682695-E957-482A-B159-FA37E443A4C3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B0682695-E957-482A-B159-FA37E443A4C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0682695-E957-482A-B159-FA37E443A4C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0682695-E957-482A-B159-FA37E443A4C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0682695-E957-482A-B159-FA37E443A4C3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
