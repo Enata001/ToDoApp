@@ -114,6 +114,7 @@ public class AuthController : ControllerBase
             return Ok(new AuthResponse()
             {
                 Success = true,
+                
                 Token = token,
             });
         }
