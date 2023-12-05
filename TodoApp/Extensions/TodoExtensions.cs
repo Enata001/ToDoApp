@@ -17,6 +17,19 @@ public static class TodoExtensions
     {
         var dbConnectionString = configuration.GetConnectionString("DefaultConnection");
         serviceCollection.Configure<JwtConfig>(configuration.GetSection("JwtConfig"));
+        var key = Encoding.ASCII.GetBytes(configuration["JwtConfig:Secret"] ?? string.Empty);
+
+        var tokenValidationParam = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(key),
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ValidateLifetime = false,
+            RequireExpirationTime = false,
+                    
+        };
+        serviceCollection.AddSingleton<TokenValidationParameters>(tokenValidationParam);
         serviceCollection.AddAuthentication(options =>
         {
             options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -24,18 +37,8 @@ public static class TodoExtensions
             options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
         }).AddJwtBearer(option =>
         {
-            var key = Encoding.ASCII.GetBytes(configuration["JwtConfig:Secret"] ?? string.Empty);
             option.SaveToken = true;
-            option.TokenValidationParameters = new TokenValidationParameters
-            {
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(key),
-                ValidateIssuer = false,
-                ValidateAudience = false,
-                ValidateLifetime = false,
-                RequireExpirationTime = false,
-                    
-            };
+            option.TokenValidationParameters = tokenValidationParam;
         });
         serviceCollection.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
             .AddEntityFrameworkStores<ApiDbContext>();
