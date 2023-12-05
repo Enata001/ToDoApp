@@ -23,7 +23,8 @@ public class AuthController : ControllerBase
     private readonly TokenValidationParameters _parameters;
     private readonly ApiDbContext _context;
 
-    public AuthController(UserManager<IdentityUser> userManager, IOptionsMonitor<JwtConfig> optionsMonitor, TokenValidationParameters  parameters,ApiDbContext context)
+    public AuthController(UserManager<IdentityUser> userManager, IOptionsMonitor<JwtConfig> optionsMonitor,
+        TokenValidationParameters parameters, ApiDbContext context)
     {
         _userManager = userManager;
         _jwtConfig = optionsMonitor.CurrentValue;
@@ -58,7 +59,7 @@ public class AuthController : ControllerBase
             var isCreated = await _userManager.CreateAsync(newUser, user.Password);
             if (isCreated.Succeeded)
             {
-                var token =await GenerateToken(newUser);
+                var token = await GenerateToken(newUser);
                 return Ok(token);
             }
             else
@@ -164,8 +165,9 @@ public class AuthController : ControllerBase
         var jwtTokenHandler = new JwtSecurityTokenHandler();
         try
         {
-            var tokenToBeVerified = jwtTokenHandler.ValidateToken(tokenRequest.Token,_parameters, out var validatedToken);
-            
+            var tokenToBeVerified =
+                jwtTokenHandler.ValidateToken(tokenRequest.Token, _parameters, out var validatedToken);
+
             if (validatedToken is JwtSecurityToken jwtSecurityToken)
             {
                 var result = jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256,
@@ -179,23 +181,24 @@ public class AuthController : ControllerBase
             var value = tokenToBeVerified.Claims
                 .FirstOrDefault(a => a.Type == JwtRegisteredClaimNames.Exp)
                 ?.Value;
-            
-                var utcExpiryDate = long.Parse(value);
-                var expiryDate = TimeStampToDateTime(utcExpiryDate);
-                if (expiryDate >DateTime.UtcNow)
-                {
-                    return new AuthResult()
-                    {
-                        Success = false,
-                        Errors = new List<string>()
-                        {
-                            "Token has not yet expired"
-                        }
-                    };
-                }
-            
 
-            var storedToken = await _context.RefreshTokens.FirstOrDefaultAsync(x => x.Token == tokenRequest.RefreshToken);
+            var utcExpiryDate = long.Parse(value);
+            var expiryDate = TimeStampToDateTime(utcExpiryDate);
+            if (expiryDate > DateTime.UtcNow)
+            {
+                return new AuthResult()
+                {
+                    Success = false,
+                    Errors = new List<string>()
+                    {
+                        "Token has not yet expired"
+                    }
+                };
+            }
+
+
+            var storedToken =
+                await _context.RefreshTokens.FirstOrDefaultAsync(x => x.Token == tokenRequest.RefreshToken);
             if (storedToken is null)
             {
                 return new AuthResult()
@@ -233,7 +236,7 @@ public class AuthController : ControllerBase
             }
 
             var jti = tokenToBeVerified.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Jti)?.Value;
-            if (storedToken.JwtId !=jti)
+            if (storedToken.JwtId != jti)
             {
                 return new AuthResult()
                 {
@@ -252,7 +255,6 @@ public class AuthController : ControllerBase
 
             var dbUser = _userManager.FindByIdAsync(storedToken.UserId);
             return await GenerateToken(dbUser.Result);
-
         }
         catch (Exception e)
         {
@@ -260,7 +262,7 @@ public class AuthController : ControllerBase
             throw;
         }
     }
-    
+
     private async Task<AuthResult> GenerateToken(IdentityUser user)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
@@ -298,7 +300,6 @@ public class AuthController : ControllerBase
             Token = jwtToken,
             Success = true,
             RefreshToken = refreshToken.Token
-            
         };
     }
 
@@ -306,7 +307,7 @@ public class AuthController : ControllerBase
     {
         var random = new Random();
         var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        return new string(Enumerable.Repeat(chars, length).Select(x=>x[random.Next(x.Length)]).ToArray());
+        return new string(Enumerable.Repeat(chars, length).Select(x => x[random.Next(x.Length)]).ToArray());
     }
 
     private DateTime TimeStampToDateTime(long date)
