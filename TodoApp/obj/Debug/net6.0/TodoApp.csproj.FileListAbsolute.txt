@@ -62,3 +62,6 @@ C:\Users\emman\RiderProjects\TodoApp\TodoApp\bin\Debug\net6.0\Microsoft.Identity
 C:\Users\emman\RiderProjects\TodoApp\TodoApp\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 C:\Users\emman\RiderProjects\TodoApp\TodoApp\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
 C:\Users\emman\RiderProjects\TodoApp\TodoApp\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\emman\RiderProjects\TodoApp\TodoApp\bin\Debug\net6.0\Asp.Versioning.Abstractions.dll
+C:\Users\emman\RiderProjects\TodoApp\TodoApp\bin\Debug\net6.0\Asp.Versioning.Http.dll
+C:\Users\emman\RiderProjects\TodoApp\TodoApp\bin\Debug\net6.0\Asp.Versioning.Mvc.dll

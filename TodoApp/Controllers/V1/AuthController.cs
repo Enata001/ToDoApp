@@ -8,11 +8,12 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using TodoApp.Configuration;
 using TodoApp.Data;
+using TodoApp.Data.V1;
 using TodoApp.Models;
 using TodoApp.Models.DTO.Requests;
 using TodoApp.Models.DTO.Responses;
 
-namespace TodoApp.Controllers;
+namespace TodoApp.Controllers.V1;
 
 [Route("[controller]")]
 [ApiController]

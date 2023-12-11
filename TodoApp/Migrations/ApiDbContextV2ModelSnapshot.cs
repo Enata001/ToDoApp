@@ -2,22 +2,18 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using TodoApp.Data;
-using TodoApp.Data.V1;
+using TodoApp.Data.V2;
 
 #nullable disable
 
 namespace TodoApp.Migrations
 {
-    [DbContext(typeof(ApiDbContext))]
-    [Migration("20231204212841_Adding Refresh Token Table")]
-    partial class AddingRefreshTokenTable
+    [DbContext(typeof(ApiDbContextV2))]
+    partial class ApiDbContextV2ModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -226,13 +222,11 @@ namespace TodoApp.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("TodoApp.Models.ItemData", b =>
+            modelBuilder.Entity("TodoApp.Models.ItemDataV2", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Description")
                         .HasColumnType("text");
@@ -245,7 +239,7 @@ namespace TodoApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Items");
+                    b.ToTable("ItemsV2");
                 });
 
             modelBuilder.Entity("TodoApp.Models.RefreshTokens", b =>
@@ -284,7 +278,7 @@ namespace TodoApp.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("RefreshTokens");
+                    b.ToTable("RefreshTokensV2");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
