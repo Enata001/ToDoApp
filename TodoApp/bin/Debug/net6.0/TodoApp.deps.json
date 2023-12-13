@@ -8,6 +8,7 @@
     ".NETCoreApp,Version=v6.0": {
       "TodoApp/1.0.0": {
         "dependencies": {
+          "Asp.Versioning.Mvc": "6.4.1",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "6.0.25",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "6.0.25",
           "Microsoft.AspNetCore.Identity.UI": "6.0.25",
@@ -18,6 +19,39 @@
         },
         "runtime": {
           "TodoApp.dll": {}
+        }
+      },
+      "Asp.Versioning.Abstractions/6.2.1": {
+        "dependencies": {
+          "Microsoft.Extensions.Primitives": "7.0.0"
+        },
+        "runtime": {
+          "lib/net6.0/Asp.Versioning.Abstractions.dll": {
+            "assemblyVersion": "6.2.0.0",
+            "fileVersion": "6.2.8376.598"
+          }
+        }
+      },
+      "Asp.Versioning.Http/6.5.0": {
+        "dependencies": {
+          "Asp.Versioning.Abstractions": "6.2.1"
+        },
+        "runtime": {
+          "lib/net6.0/Asp.Versioning.Http.dll": {
+            "assemblyVersion": "6.5.0.0",
+            "fileVersion": "6.5.8658.27461"
+          }
+        }
+      },
+      "Asp.Versioning.Mvc/6.4.1": {
+        "dependencies": {
+          "Asp.Versioning.Http": "6.5.0"
+        },
+        "runtime": {
+          "lib/net6.0/Asp.Versioning.Mvc.dll": {
+            "assemblyVersion": "6.4.0.0",
+            "fileVersion": "6.4.8726.754"
+          }
         }
       },
       "Humanizer.Core/2.14.1": {
@@ -493,6 +527,27 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "Asp.Versioning.Abstractions/6.2.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-1j/cuxGIBJnEnPjfkIeZ4HDD8R6uuZ3WCXPEcb8zUc967JnvlqDfp82OVNUoMkzF1kpa5AVm8RA294+81xbqIQ==",
+      "path": "asp.versioning.abstractions/6.2.1",
+      "hashPath": "asp.versioning.abstractions.6.2.1.nupkg.sha512"
+    },
+    "Asp.Versioning.Http/6.5.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-i3lH0Wtctp/gd393Y5AVefQK7vGAv6WMANgEn/z+PVKMU27112K6U4tryYqBJLb5RFz1jB+faVSophPXcY3XRw==",
+      "path": "asp.versioning.http/6.5.0",
+      "hashPath": "asp.versioning.http.6.5.0.nupkg.sha512"
+    },
+    "Asp.Versioning.Mvc/6.4.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-nTtxWJPFuYJ64J5se/ZVllRNjrFcG/dvKfz8cke3mntY92pGLKshKoXmtCl3+4jHVoJwL9R5duMt5yy/0vAfhA==",
+      "path": "asp.versioning.mvc/6.4.1",
+      "hashPath": "asp.versioning.mvc.6.4.1.nupkg.sha512"
     },
     "Humanizer.Core/2.14.1": {
       "type": "package",

@@ -1,9 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "wpJwcVCpirWSVjSjn5zHPFeVftGn7/c2nkuvtzllUg1gR7OZv/90Rxzp3l1ciobOIN9nD2Awnv24TEUu+u6Suw==",
+  "dgSpecHash": "wFBPqAwmE+wyyb438QVCA1gDDlfEjI/a8ZOBZE3Vk9ACQdGrGOGieHnDtT9eRMNwsq9oNTedUf9Xou1i4+zR4A==",
   "success": true,
   "projectFilePath": "C:\\Users\\emman\\RiderProjects\\TodoApp\\TodoApp\\TodoApp.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\emman\\.nuget\\packages\\asp.versioning.abstractions\\6.2.1\\asp.versioning.abstractions.6.2.1.nupkg.sha512",
+    "C:\\Users\\emman\\.nuget\\packages\\asp.versioning.http\\6.5.0\\asp.versioning.http.6.5.0.nupkg.sha512",
+    "C:\\Users\\emman\\.nuget\\packages\\asp.versioning.mvc\\6.4.1\\asp.versioning.mvc.6.4.1.nupkg.sha512",
     "C:\\Users\\emman\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\emman\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\6.0.25\\microsoft.aspnetcore.authentication.jwtbearer.6.0.25.nupkg.sha512",
     "C:\\Users\\emman\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\6.0.25\\microsoft.aspnetcore.cryptography.internal.6.0.25.nupkg.sha512",

@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using TodoApp.Models;
 
-namespace TodoApp.Data;
+namespace TodoApp.Data.V1;
 
 public class ApiDbContext : IdentityDbContext
 {

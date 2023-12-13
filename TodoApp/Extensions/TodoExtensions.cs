@@ -1,12 +1,13 @@
 ﻿using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 using Microsoft.IdentityModel.Tokens;
 using TodoApp.Configuration;
 using TodoApp.Data;
+using TodoApp.Data.V1;
+using TodoApp.Data.V2;
 
 namespace TodoApp.Extensions;
 
@@ -27,9 +28,16 @@ public static class TodoExtensions
             ValidateAudience = false,
             ValidateLifetime = false,
             RequireExpirationTime = false,
-                    
+
         };
-        serviceCollection.AddSingleton<TokenValidationParameters>(tokenValidationParam);
+        serviceCollection.AddApiVersioning(options =>
+        {
+            options.AssumeDefaultVersionWhenUnspecified = true;
+            options.ReportApiVersions = true;
+        }
+    );
+
+    serviceCollection.AddSingleton<TokenValidationParameters>(tokenValidationParam);
         serviceCollection.AddAuthentication(options =>
         {
             options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -42,10 +50,13 @@ public static class TodoExtensions
         });
         serviceCollection.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
             .AddEntityFrameworkStores<ApiDbContext>();
+        serviceCollection.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            .AddEntityFrameworkStores<ApiDbContextV2>();
         serviceCollection.AddControllers();
         serviceCollection.AddEndpointsApiExplorer();
         serviceCollection.AddSwaggerGen();
         serviceCollection.AddDbContext<ApiDbContext>(options => options.UseNpgsql(dbConnectionString));
+        serviceCollection.AddDbContext<ApiDbContextV2>(options => options.UseNpgsql(dbConnectionString));
 
         return serviceCollection;
     }

@@ -3,8 +3,9 @@
   <component name="EfCoreDialogsState">
     <option name="keyValueStorage">
       <map>
-        <entry key="Common:b0682695-e957-482a-b159-fa37e443a4c3:dbContext" value="TodoApp.Data.ApiDbContext" />
+        <entry key="Common:b0682695-e957-482a-b159-fa37e443a4c3:dbContext" value="TodoApp.Data.V2.ApiDbContextV2" />
         <entry key="Common:buildConfiguration" value="Debug" />
+        <entry key="Common:enableDiagnosticLogging" value="false" />
         <entry key="Common:noBuild" value="false" />
         <entry key="Common:outputFolder" value="Migrations" />
         <entry key="Common:targetFramework" value="net6.0" />

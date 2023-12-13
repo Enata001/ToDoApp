@@ -1,14 +1,17 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Asp.Versioning;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TodoApp.Data;
+using TodoApp.Data.V1;
 using TodoApp.Models;
 
-namespace TodoApp.Controllers;
+namespace TodoApp.Controllers.V1;
 
 [ApiController]
 [Route("[controller]")]
+[ApiVersion("1.0")]
 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 public class TodoController : ControllerBase
 {
