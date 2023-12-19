@@ -22,14 +22,19 @@ public class AuthController : ControllerBase
     private readonly JwtConfig _jwtConfig;
     private readonly TokenValidationParameters _parameters;
     private readonly ApiDbContext _context;
+    private readonly RoleManager<IdentityRole> _roleManager;
+    private readonly ILogger<AuthController> _logger;
 
-    public AuthController(UserManager<IdentityUser> userManager, IOptionsMonitor<JwtConfig> optionsMonitor,
+    public AuthController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager,
+        ILogger<AuthController> logger, IOptionsMonitor<JwtConfig> optionsMonitor,
         TokenValidationParameters parameters, ApiDbContext context)
     {
         _userManager = userManager;
         _jwtConfig = optionsMonitor.CurrentValue;
         _parameters = parameters;
         _context = context;
+        _roleManager = roleManager;
+        _logger = logger;
     }
 
     [HttpPost]
@@ -59,6 +64,7 @@ public class AuthController : ControllerBase
             var isCreated = await _userManager.CreateAsync(newUser, user.Password);
             if (isCreated.Succeeded)
             {
+                // await _userManager.AddToRoleAsync(newUser, "AppUser");
                 var token = await GenerateToken(newUser);
                 return Ok(token);
             }
@@ -81,6 +87,7 @@ public class AuthController : ControllerBase
             Success = false
         });
     }
+
 
     [HttpPost]
     [Route("Login")]
@@ -267,15 +274,11 @@ public class AuthController : ControllerBase
     {
         var tokenHandler = new JwtSecurityTokenHandler();
         var key = Encoding.ASCII.GetBytes(_jwtConfig.Secret);
+        var claims = await GetAllValidClaims(user);
         var tokenDescriptor = new SecurityTokenDescriptor
         {
-            Subject = new ClaimsIdentity(new[]
-            {
-                new Claim("Id", user.Id),
-                new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                new Claim(JwtRegisteredClaimNames.Sub, user.Email),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-            }),
+            
+            Subject = new ClaimsIdentity(claims),
             Expires = DateTime.UtcNow.AddSeconds(30),
             SigningCredentials =
                 new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
@@ -302,6 +305,39 @@ public class AuthController : ControllerBase
             RefreshToken = refreshToken.Token
         };
     }
+
+    private async Task<List<Claim>> GetAllValidClaims(IdentityUser user)
+    {
+        var _options = new IdentityOptions();
+        var claims = new List<Claim>()
+        {
+            new Claim("Id", user.Id),
+            new Claim(JwtRegisteredClaimNames.Email, user.Email),
+            new Claim(JwtRegisteredClaimNames.Sub, user.Email),
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+        };
+        var userClaims = await _userManager.GetClaimsAsync(user);
+        claims.AddRange(userClaims);
+
+        var userRoles = await _userManager.GetRolesAsync(user);
+
+        foreach (var userRole in userRoles)
+        {
+            var role = await _roleManager.FindByNameAsync(userRole);
+            if (role is not null)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, userRole));
+                var roleClaims = await _roleManager.GetClaimsAsync(role);
+                foreach (var roleClaim in roleClaims)
+                {
+                    claims.AddRange(roleClaims);
+                }
+            }
+        }
+
+        return claims;
+    }
+
 
     private string RandomString(int length)
     {

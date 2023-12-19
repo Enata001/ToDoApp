@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
 using Microsoft.IdentityModel.Tokens;
 using TodoApp.Configuration;
 using TodoApp.Data;
@@ -27,7 +26,6 @@ public static class TodoExtensions
             ValidateAudience = false,
             ValidateLifetime = false,
             RequireExpirationTime = false,
-                    
         };
         serviceCollection.AddSingleton<TokenValidationParameters>(tokenValidationParam);
         serviceCollection.AddAuthentication(options =>
@@ -40,7 +38,10 @@ public static class TodoExtensions
             option.SaveToken = true;
             option.TokenValidationParameters = tokenValidationParam;
         });
-        serviceCollection.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+        serviceCollection.AddAuthorization(options =>
+            options.AddPolicy("LocationPolicy", builder => builder.RequireClaim("location")));
+        serviceCollection
+            .AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
             .AddEntityFrameworkStores<ApiDbContext>();
         serviceCollection.AddControllers();
         serviceCollection.AddEndpointsApiExplorer();

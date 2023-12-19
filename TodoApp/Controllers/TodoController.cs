@@ -9,7 +9,7 @@ namespace TodoApp.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "AppUser")]
 public class TodoController : ControllerBase
 {
     private readonly ApiDbContext _context;
@@ -27,6 +27,7 @@ public class TodoController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Policy = "LocationPolicy")]
     public async Task<IActionResult> CreateItem(ItemData item)
     {
         if (ModelState.IsValid)
